@@ -10,7 +10,7 @@
       <div class="Heading">
         <h1 class="Heading-h1">PDFx - Your Favourite PDF Merger Tool</h1>
       </div>
-      <form action="/merge" enctype="multipart/form-data" method="post">
+      <form action="/merge" enctype="multipart/form-data" method="post" id = 'mergeForm'>
         <div class="input">
           <div class="input-label">
             <label for="input-file">Select the PDF files you want to Merge.</label>
@@ -18,9 +18,10 @@
           <input type="file" name ='pdfs' class="input-file" id="input-file" multiple accept=".pdf" />
         </div>
         <div class="button">
-          <button class="submit-button">Submit</button>
+          <button class="submit-button" type = 'submit'>Submit</button>
         </div>
       </form>
     </div>
+    <script src = "/static/js/script.js"></script>
   </body>
 </html>

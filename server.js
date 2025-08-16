@@ -19,7 +19,8 @@ app.post('/merge', upload.array('pdfs'), async (req, res, next) => {
     let d = await mergePdfs(req.files.map(
         file => path.join(__dirname, file.path))
     );
-    res.redirect(`static/${d}.pdf`)
+    res.json({ file: `/static/${d}.pdf` });
+
 })
 
 app.listen(port, () => {
