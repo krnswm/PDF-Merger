@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDFx-Merge</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="Heading">
+        <h1 class="Heading-h1">PDFx - Your Favourite PDF Merger Tool</h1>
+      </div>
+      <form action="/merge" enctype="multipart/form-data" method="post">
+        <div class="input">
+          <div class="input-label">
+            <label for="input-file">Select the PDF files you want to Merge.</label>
+          </div>
+          <input type="file" name ='pdfs' class="input-file" id="input-file" multiple accept=".pdf" />
+        </div>
+        <div class="button">
+          <button class="submit-button">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
