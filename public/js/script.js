@@ -40,22 +40,27 @@ function renderFileList() {
 
   selectedFiles.forEach((file, index) => {
     let li = document.createElement("li");
+    li.draggable = true; // make list item draggable
+    li.dataset.index = index;
 
     let nameSpan = document.createElement("span");
     nameSpan.textContent = file.name + " ";
 
     // File size (formatted in KB/MB)
     let sizeSpan = document.createElement("span");
-    let fileSizeKB = (file.size / 1024).toFixed(2); // in KB
-    sizeSpan.textContent = `(${fileSizeKB < 1024 ? fileSizeKB + " KB" : (fileSizeKB / 1024).toFixed(2) + " MB"}) `;
+    let fileSizeKB = (file.size / 1024).toFixed(2);
+    sizeSpan.textContent =
+      fileSizeKB < 1024
+        ? `(${fileSizeKB} KB) `
+        : `(${(fileSizeKB / 1024).toFixed(2)} MB) `;
 
     // Remove button
     let removeBtn = document.createElement("button");
-    removeBtn.textContent = "❌";
+    removeBtn.textContent = "X";
     removeBtn.style.marginLeft = "10px";
     removeBtn.onclick = () => {
       selectedFiles.splice(index, 1); // remove file
-      renderFileList(); // refresh list
+      renderFileList();
     };
 
     // Append everything
@@ -63,8 +68,45 @@ function renderFileList() {
     li.appendChild(sizeSpan);
     li.appendChild(removeBtn);
     fileList.appendChild(li);
+
+    // ---- Drag & Drop Events ----
+    li.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", index);
+      li.style.opacity = "0.5"; // fade while dragging
+    });
+
+    li.addEventListener("dragend", () => {
+      li.style.opacity = "1"; // reset after dragging
+    });
+
+    li.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      li.style.background = "#f0f0f0"; // highlight drop target
+    });
+
+    li.addEventListener("dragleave", () => {
+      li.style.background = "";
+    });
+
+    li.addEventListener("drop", (e) => {
+      e.preventDefault();
+      li.style.background = "";
+
+      let draggedIndex = parseInt( e.dataTransfer.getData("text/plain"), 10);
+      let targetIndex = parseInt(li.dataset.index, 10);
+
+      if (draggedIndex === targetIndex) return;
+      
+      // Swap positions in selectedFiles
+      let draggedFile = selectedFiles[draggedIndex];
+      selectedFiles.splice(draggedIndex, 1);
+      selectedFiles.splice(targetIndex, 0, draggedFile);
+
+      renderFileList(); // re-render list with new order
+    });
   });
 }
+
 
 function showError(message) {
   errorMessageDiv.textContent = message;
