@@ -37,9 +37,31 @@ function handleFiles(files) {
 
 function renderFileList() {
   fileList.innerHTML = "";
+
   selectedFiles.forEach((file, index) => {
     let li = document.createElement("li");
-    li.textContent = file.name;
+
+    let nameSpan = document.createElement("span");
+    nameSpan.textContent = file.name + " ";
+
+    // File size (formatted in KB/MB)
+    let sizeSpan = document.createElement("span");
+    let fileSizeKB = (file.size / 1024).toFixed(2); // in KB
+    sizeSpan.textContent = `(${fileSizeKB < 1024 ? fileSizeKB + " KB" : (fileSizeKB / 1024).toFixed(2) + " MB"}) `;
+
+    // Remove button
+    let removeBtn = document.createElement("button");
+    removeBtn.textContent = "❌";
+    removeBtn.style.marginLeft = "10px";
+    removeBtn.onclick = () => {
+      selectedFiles.splice(index, 1); // remove file
+      renderFileList(); // refresh list
+    };
+
+    // Append everything
+    li.appendChild(nameSpan);
+    li.appendChild(sizeSpan);
+    li.appendChild(removeBtn);
     fileList.appendChild(li);
   });
 }
@@ -58,6 +80,11 @@ document.getElementById("mergeForm").addEventListener("submit", async function (
 
   let formData = new FormData();
   selectedFiles.forEach((file) => formData.append("pdfs", file));
+
+  if (selectedFiles.length < 2) {
+    showError("Please select at least 2 PDFs to merge.");
+    return;
+  }
 
   let response = await fetch("/merge", { method: "POST", body: formData });
 
