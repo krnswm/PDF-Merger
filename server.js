@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.post('/merge', upload.array('pdfs'), async (req, res, next) => {
     if(!req.files || req.files.length < 2){
-        return res.status(400).send("Please upload at least 2 PDF's.")
+        return res.status(400).send("(Please upload at least 2 PDF's.)")
     }
     let d = await mergePdfs(req.files.map(
         file => path.join(__dirname, file.path))

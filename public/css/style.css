@@ -1,0 +1,42 @@
+.drop-zone {
+  border: 2px dashed #666;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  transition: background 0.2s ease;
+}
+
+.drop-zone.drag-over {
+  background: #d4edda;
+  border-color: #28a745;
+}
+
+#fileList {
+  list-style: none;
+  padding: 0;
+}
+
+#fileList li {
+  padding: 5px;
+  margin: 3px 0;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.button {
+    display: flex;
+}
+
+.submit-button {
+    height: 40px;
+    width: 100px;
+}
+
+#errorMessage {
+    color: #d9534f;
+    margin: 8px;
+    font-size: 16px;
+}
